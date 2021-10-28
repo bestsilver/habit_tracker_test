@@ -1,4 +1,2 @@
-#For react study
-
-#Usage
+# Usage
 yarn start
