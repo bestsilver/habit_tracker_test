@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 button {
   outline: none;
   border: 0;
@@ -5,8 +9,14 @@ button {
 }
 
 .habit-nav {
-  padding : 30px;
+  font-size: 2rem;
+  padding : 1rem;
   background-color: wheat;
+}
+
+.navbar-logo{
+  color: green;
+  margin: 0.5rem;
 }
 
 .habit-nav-count {
@@ -23,22 +33,21 @@ button {
   border-radius: 50%;
 }
 
-.habit-input {
-  margin-left: 10px;
+.add-input {
   font-size: 2rem;
+  margin-right: 0.2em;
 }
 
-.habit-add-btn {
+.add-button {
   height: 100%;
-  margin-left: 10px;
-  padding: 0.3em 0.5em;
-  background-color: darkgreen;
-  color: white;
   font-size: 1.5rem;
+  padding: 0.3em 0.5em;
+  background-color: green;
+  color: white;
 }
+
 
 .habits-reset {
-  margin-left: 10px;
   font-size: 1.5rem;
   padding: 0.2em 1em;
   background-color: green;

@@ -11,31 +11,9 @@ class App extends Component {
         { id: 1, 'name': 'Reading', count: 0 },
         { id: 2, 'name': 'Running', count: 0 },
         { id: 3, 'name': 'Coding', count: 0 }
-    ],
-    input: ""
+    ]
   }
 
-  handleUpdateInput = (event) => {
-    this.setState({'input' : event.target.value})
-  }
-
-  handleAddHabit = (event) => {
-    // event.preventDefault();
-    if (this.state.input.length <= 0) {
-      return;
-    }
-    this.setState((state, props) => {
-      const inputHabit = state.input
-      const habits = [...state.habits, 
-        {'id' : Math.random(), 'count' : 0, 'name' : inputHabit}]
-      
-      return {
-        habits,
-        input: ''
-      }
-    })
-
-  }
 
   //리액트에서는 state를 직접 수정하면 안된다. this.setState(this.state) <- X
   handleIncrement = (habit) => {
@@ -64,31 +42,31 @@ class App extends Component {
   }
 
   handleReset = () => {
-    const habits = [
-      { id: 1, 'name': 'Reading', count: 0 },
-      { id: 2, 'name': 'Running', count: 0 },
-      { id: 3, 'name': 'Coding', count: 0 }
-    ]
-    
-    this.setState({
-      habits,
-      input: ''
+    const habits = this.state.habits.map(habit => {
+      habit.count = 0;
+      return habit
     })
+    this.setState({habits})
+  }
+
+  handleAdd = (name) => {
+    const habits = [...this.state.habits, 
+      {id : Math.random(), count : 0, name}]
+    this.setState({habits})
   }
 
   render() {
     return (
       <React.Fragment>
-        <Navbar habits={this.state.habits}></Navbar>
-        <input type="text" className="habit-input" onChange={this.handleUpdateInput} value={this.state.input}/>
-        <button className="habit-add-btn" onClick={this.handleAddHabit}>add</button>
+        <Navbar totalCount={this.state.habits.filter(habit => habit.count > 0).length}></Navbar>
         <Habits habits={this.state.habits}
           onIncrement={this.handleIncrement}
           onDecrement={this.handleDecrement}
           onDelete={this.handleDelete}
+          onAdd={this.handleAdd}
+          onReset={this.handleReset}
         >
         </Habits>
-        <button className="habits-reset" onClick={this.handleReset}>Reset All</button>
       </React.Fragment>
     );
   }
