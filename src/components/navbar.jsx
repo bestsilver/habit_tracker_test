@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 
 class Navbar extends Component {
     render() {
-        const habitsCount = this.props.habits.filter(habit => habit.count > 0).length
         return (
             <>
-                <div className="habit-nav">
-                    <span className="habit">Habit Tracker</span>
-                    <span className="habit-nav-count">{habitsCount}</span>
-                </div>
+                <nav className="habit-nav">
+                    <i className="navbar-logo fas fa-apple-alt"></i>
+                    <span>Habit Tracker</span>
+                    <span className="habit-nav-count">{this.props.totalCount}</span>
+                </nav>
             </>
 
         );
