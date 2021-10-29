@@ -38,6 +38,10 @@ button {
   margin-right: 0.2em;
 }
 
+.add-form {
+  margin : 1rem;
+}
+
 .add-button {
   height: 100%;
   font-size: 1.5rem;

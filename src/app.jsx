@@ -16,20 +16,43 @@ class App extends Component {
 
 
   //리액트에서는 state를 직접 수정하면 안된다. this.setState(this.state) <- X
+  // state를 직접 수정하지 않는 이유가 리액트가 shallow comparison을 이용하기 때문이다.
   handleIncrement = (habit) => {
-    //직접적으로 배열의 state를 수정하면 좋지 않기 때문에 새로운 배열에 껍데기를 만든 것이다.
-    const habits = [...this.state.habits]
-    const index = habits.indexOf(habit)
-    //직접 수정하지 좋지 않은 코드인데 바로 수정했다..이것도 좋지 않은 코드이다.
-    habits[index].count++
+    // //직접적으로 배열의 state를 수정하면 좋지 않기 때문에 새로운 배열에 껍데기를 만든 것이다.
+    // const habits = [...this.state.habits]
+    // const index = habits.indexOf(habit)
+    // //직접 수정하지 좋지 않은 코드인데 바로 수정했다..이것도 좋지 않은 코드이다.
+    // habits[index].count++
+    // this.setState({habits})
+
+    const habits = this.state.habits.map(item => {
+      if (item.id === habit.id) {
+        // 기존 habit에 있는 모든 attribute를 기반으로 새로운 obj가 만들어진다. (deconstructing object)
+        // 이후 count만 덮어쓰기
+        return {...habit, count : habit.count + 1}
+      }
+
+      return item
+    })
+
     this.setState({habits})
   }
 
   handleDecrement = (habit) => {
-    const habits = [...this.state.habits]
-    const index = habits.indexOf(habit)
-    habits[index].count - 1 <= 0 ? habits[index].count = 0 : habits[index].count--
-    this.setState({habits}) 
+    // const habits = [...this.state.habits]
+    // const index = habits.indexOf(habit)
+    // habits[index].count - 1 <= 0 ? habits[index].count = 0 : habits[index].count--
+    // this.setState({habits}) 
+
+    const habits = this.state.habits.map(item => {
+      if (item.id === habit.id) {
+        const count = item.count - 1
+        return {...habit, count : count < 0 ? 0 : count}
+      }
+      return item
+    })
+
+    this.setState({habits})
   }
 
   handleDelete = (habit) => {
@@ -43,9 +66,12 @@ class App extends Component {
 
   handleReset = () => {
     const habits = this.state.habits.map(habit => {
-      habit.count = 0;
+      if (habit.count !== 0) {
+        return {...habit, count : 0}
+      }
       return habit
     })
+
     this.setState({habits})
   }
 
