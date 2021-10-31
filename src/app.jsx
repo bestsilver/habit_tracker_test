@@ -5,69 +5,61 @@ import Navbar from './components/navbar';
 // import React, { Component,  } from 'react';
 import React, { useCallback, useState } from 'react';
 
-const App = (props) => {
-  const [state, setState] = useState({
-    habits: [
-        { id: 1, 'name': 'Reading', count: 0 },
-        { id: 2, 'name': 'Running', count: 0 },
-        { id: 3, 'name': 'Coding', count: 0 }
-    ]
-  })
+const App = (props) => { 
+  const [habits, setHabits] = useState([
+    { id: 1, 'name': 'Reading', count: 0 },
+    { id: 2, 'name': 'Running', count: 0 },
+    { id: 3, 'name': 'Coding', count: 0 }
+])
 
   const handleIncrement = useCallback((habit) => {
-    const habits = state.habits.map(item => {
-      if (item.id === habit.id) {
-        return {...habit, count : habit.count + 1}
-      }
-
-      return item
-    })
-
-    setState({habits})
-  })
+    setHabits(habits =>
+      habits.map(item => {
+        if (item.id === habit.id) {
+          return { ...habit, count: habit.count + 1 };
+        }
+        return item;
+      })
+    );
+  }, [])
 
   const handleDecrement = useCallback((habit) => {
-    const habits = state.habits.map(item => {
-      if (item.id === habit.id) {
-        const count = item.count - 1
-        return {...habit, count : count < 0 ? 0 : count}
-      }
-      return item
-    })
-
-    setState({habits})
-  })
+    setHabits(habits =>
+      habits.map(item => {
+        if (item.id === habit.id) {
+          const count = habit.count - 1;
+          return { ...habit, count: count < 0 ? 0 : count };
+        }
+        return item;
+      })
+    );
+  }, [])
 
   const handleDelete = useCallback((habit) => {
-    const habits = [...state.habits]
-    const index = habits.indexOf(habit)
-    habits.splice(index, 1)
-    setState({habits})
+    setHabits(habits => habits.filter(item => item.id !== habit.id));
     //이런식으로 할 수도 있다.
-    //const habits = state.habits.filter(item => item.id !== habit.id)
-  })
+    //const habits = habits.filter(item => item.id !== habit.id)
+  }, [])
 
   const handleReset = useCallback(() => {
-    const habits = state.habits.map(habit => {
-      if (habit.count !== 0) {
-        return {...habit, count : 0}
-      }
-      return habit
-    })
-
-    setState({habits})
-  })
+    setHabits(habits =>
+      habits.map(habit => {
+        if (habit.count !== 0) {
+          return { ...habit, count: 0 };
+        }
+        return habit;
+      })
+    )
+  }, [])
 
   const handleAdd = useCallback((name) => {
-    const habits = [...state.habits, 
-      {id : Math.random(), count : 0, name}]
-    setState({habits})
-  })
+    setHabits(habits => [...habits, { id: Date.now(), name, count: 0 }]);
+  }, [])
 
   return (
     <React.Fragment>
-      <Navbar totalCount={state.habits.filter(habit => habit.count > 0).length}></Navbar>
-      <Habits habits={state.habits}
+      <Navbar totalCount={habits.filter(habit => habit.count > 0).length}></Navbar>
+      <Habits habits={habits}
         onIncrement={handleIncrement}
         onDecrement={handleDecrement}
         onDelete={handleDelete}

@@ -1,16 +1,16 @@
 // import React, { PureComponent } from 'react';
-import React, { useCallback } from 'react';
+import React, { memo } from 'react';
 
-const Habit = (props) => {
-    const handleIncrement = useCallback(() => {
+const Habit = memo((props) => {
+    const handleIncrement = () => {
         props.onIncrement(props.habit);
-    })
-    const handleDecrement = useCallback(() => {
+    }
+    const handleDecrement = () => {
         props.onDecrement(props.habit);
-    })
-    const handleDelete = useCallback(() => {
+    }
+    const handleDelete = () => {
         props.onDelete(props.habit);
-    })
+    }
 
     //habit안에 있는 동일한 이름을 써야함
     const {name, count} = props.habit
@@ -30,7 +30,7 @@ const Habit = (props) => {
         </li>
     );
 }
-
+)
 export default Habit;
 
 // class Habit extends PureComponent {
